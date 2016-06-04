@@ -1,46 +1,85 @@
 $(function ($) {
-    var ref = new Firebase("https://lfchallenge.firebaseio.com/students");
     /** Create Operations ======================
      *
      */
-
+            var currentFireBaseRef = new Firebase("https://lfchallenge.firebaseio.com/students");
+            var addBtn = $("#add-student-btn");
+            var sgtTable = $("#student-table");
 
     /** Click handler to submit student information
-     * Take values of the student-add-form
+     * Take values of the student-add-form, assigns those values, then push the new object containing those keys and values to database and clear form
      */
+            addBtn.click(function(){
+                var studentName = $("#s-name-input").val(),
+                    studentCourse = $("#s-course-input").val(),
+                    studentGrade = $("#s-grade-input").val();
+                        //console.log("testing addBtn click handler: ", studentName, studentCourse, studentGrade);
+                currentFireBaseRef.push({
+                    name: studentName,
+                    course: studentCourse,
+                    grade: studentGrade
+                });
+                clearAddStudentForm();
+            });//addBtn click handler
 
+    /**ClearAddStudentForm function, empties the input fields of the AddStudent form*/
+            function clearAddStudentForm(){
+                $('#s-name-input').val('');
+                $('#s-course-input').val('');
+                $('#s-grade-input').val('');
+            }
 
-    /** Send the values to firebase
-     * firebaseRef.push will append a new item to the user list
-     */
 
     /** Read Operations ======================
      * Attach an asynchronous callback to read the data at our users firebaseReference on load
-     * child_added will update the DOM everytime a new student is added to the data base
+     * child_added will update the DOM every-time a new student is added to the data base
      */
-    ref.on("child_added", function (snapshot) {
-        updateDom(snapshot);
-    }), function (error) {
-        console.log("read error: ",error);
-    };
-
+            currentFireBaseRef.on("child_added", function (snapshot) {
+                updateDom(snapshot);
+            }, function (error) {
+                console.log("read error: ",error);
+            });
 
     /** Update Operations ======================
      * Click handler to update student data and send to firebase
      * Get the unique id of any student
      */
 
-    /** Edit button handler */
+        /** Edit button handler - calls the edit student info modal*/
+                sgtTable.on("click",".edit-btn", function(){
+                    var studentObjectId = $(this).data('id');
+                    var studentInFireBaseRef = currentFireBaseRef.child(studentObjectId);
+                    /** correlate studentObject information and modal inputs in order to populate info when modal is called*/
+                    studentInFireBaseRef.once('value', function(snapshot){
+                        $("#modal-edit-name").val(snapshot.val().name);
+                        $("#modal-edit-grade").val(snapshot.val().grade);
+                        $("#modal-edit-course").val(snapshot.val().course);
+                        $("#student-id").val(studentObjectId);
+                        $("#edit-modal").modal("show");
+                    })
+                });  //edit button click handler
+        /** Edit Student Function
+         * editStudentInfo func should take as parameter the studentInFireBaseRef, replace current studentInFireBaseRef info with new values from the input fields, then uses CRUD update() method to push to database when confirm button is clicked
+         */
+                function editStudentInfo(studentInFireBaseRef){
+                    var newName = $("#modal-edit-name").val();
+                    var newGrade = $("#modal-edit-grade").val();
+                    var newCourse = $("#modal-edit-course").val();
+                    studentInFireBaseRef.update({
+                        name: newName,
+                        grade: newGrade,
+                        course: newCourse
+                    })
+                }//end editStudentInfo
 
+        /** Click handler for modal confirm button - define current studentObj, call editStudentInfo, pass in the correct student, hide modal */
 
-    /** Edit Student Function
-     * studentFirebaseReference argument should be the unique url of the selected student
-     */
-
-
-    /** Click handler for modal confirm button */
-
-
+            $("#edit-modal").on("click","#confirm-edit", function(){
+                var studentInFireBaseRefID = $("#student-id").val(); 
+                var studentInFireBaseRef = currentFireBaseRef.child(studentInFireBaseRefID);
+                editStudentInfo(studentInFireBaseRef);
+                $("#edit-modal").modal('hide');
+            }); //end confirm click handler
     /** DELETE OPERATIONS ==================================
      *
      */
@@ -91,11 +130,10 @@ $(function ($) {
             });
             var sRow = $("<tr>",{
                 id: uniqueKey
-
             });
             edit.append(sEditBtnIcon);
             del.append(sDeleteBtnIcon);
-            sRow.append(sName,sCourse,sGrade,edit);
+            sRow.append(sName,sCourse,sGrade,edit,del);
             $('#student-table').append(sRow);
         }
     }////end of update DOM
@@ -110,4 +148,4 @@ $(function ($) {
 
 
 
-});
+});//end document ready
