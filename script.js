@@ -90,15 +90,15 @@ $(function ($) {
                 class: "glyphicon glyphicon-remove"
             });
             var sRow = $("<tr>",{
-                id: uniqueKey,
-                class: "row"
+                id: uniqueKey
+
             });
             edit.append(sEditBtnIcon);
             del.append(sDeleteBtnIcon);
             sRow.append(sName,sCourse,sGrade,edit);
             $('#student-table').append(sRow);
         }
-    };////end of update DOM
+    }////end of update DOM
 
 
 
