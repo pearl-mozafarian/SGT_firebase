@@ -7,6 +7,8 @@ $(function ($) {
         sgtTableElement = $('#student-table'),
         firebaseRef = new Firebase("https://lfchallenge.firebaseio.com/students");
 
+    /*TODO ^^^^^ THiS IS SHORT FORM ???
+
     /** Click handler to submit student information
      * Take values of the student-add-form
      */
@@ -72,7 +74,7 @@ $(function ($) {
         var newName = $('#modal-edit-name').val(),
             newCourse = $('#modal-edit-course').val(),
             newGrade = $('#modal-edit-grade').val();
-        console.log('student updated', 'newName: ', newName, 'newCourse: ', newCourse, 'newGrade: ', newGrade);
+        console.log('student updated', 'newName: ', newName, 'newCourse: ', newCourse, 'newGrade: ', newGrade, 'studentFirebaseReference', studentFirebaseReference);
         studentFirebaseReference.update({
             name: newName,
             course: newCourse,
