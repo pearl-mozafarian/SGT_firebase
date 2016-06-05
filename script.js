@@ -40,6 +40,16 @@ $(function ($) {
                 console.log("read error: ",error);
             });
 
+            currentFireBaseRef.on("child_changed", function (studentSnapShot) {
+                updateDom(studentSnapShot);
+            }, function (errorObject) {
+                console.log("The read on update failed: " + errorObject.code);
+            });
+    currentFireBaseRef.on("child_removed",function (snapshot) {
+        var theRow = snapshot.key();
+        // console.log("the row:",$("#",theRow));
+        $("#"+theRow).remove();
+    });
     /** Update Operations ======================
      * Click handler to update student data and send to firebase
      * Get the unique id of any student
@@ -56,7 +66,7 @@ $(function ($) {
                         $("#modal-edit-course").val(snapshot.val().course);
                         $("#student-id").val(studentObjectId);
                         $("#edit-modal").modal("show");
-                    })
+                    });
                 });  //edit button click handler
         /** Edit Student Function
          * editStudentInfo func should take as parameter the studentInFireBaseRef, replace current studentInFireBaseRef info with new values from the input fields, then uses CRUD update() method to push to database when confirm button is clicked
@@ -69,13 +79,13 @@ $(function ($) {
                         name: newName,
                         grade: newGrade,
                         course: newCourse
-                    })
+                    });
                 }//end editStudentInfo
 
         /** Click handler for modal confirm button - define current studentObj, call editStudentInfo, pass in the correct student, hide modal */
 
             $("#edit-modal").on("click","#confirm-edit", function(){
-                var studentInFireBaseRefID = $("#student-id").val(); 
+                var studentInFireBaseRefID = $("#student-id").val();
                 var studentInFireBaseRef = currentFireBaseRef.child(studentInFireBaseRefID);
                 editStudentInfo(studentInFireBaseRef);
                 $("#edit-modal").modal('hide');
@@ -85,10 +95,15 @@ $(function ($) {
      */
 
     /** Delete button handler */
-
+      sgtTable.on("click",".delete-btn",function () {
+          var stdfirebaseref = currentFireBaseRef.child($(this).data('id'));
+          console.log("delete: ",stdfirebaseref);
+          stdfirebaseref.remove();
+      });
 
     /** DOM CREATION ================================== */
     function updateDom(studentsnapshot) {
+        console.log("inside update dom");
     var studentsObject = studentsnapshot.val();
         console.log("studentsObject =", studentsObject);
         console.log("studentsnapshot =", studentsnapshot);

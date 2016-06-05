@@ -108,6 +108,7 @@ $(function ($) {
             $('#' + rowId).remove();
         });
         // Delete the student with the correct firebase method
+        studentFirebaseRef.remove();
     });
 
     /* Clear out inputs in the add-student-form */
