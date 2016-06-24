@@ -2,7 +2,8 @@ $(function ($) {
     /** Create Operations ======================
      *
      */
-            var currentFireBaseRef = new Firebase("https://lfchallenge.firebaseio.com/students");
+            // var currentFireBaseRef = new Firebase("https://lfchallenge.firebaseio.com/students");
+            var currentFireBaseRef = new Firebase("https://boiling-torch-7959.firebaseio.com/");
             var addBtn = $("#add-student-btn");
             var sgtTable = $("#student-table");
 
@@ -152,15 +153,5 @@ $(function ($) {
             $('#student-table').append(sRow);
         }
     }////end of update DOM
-
-
-
-
-
-
-
-
-
-
 
 });//end document ready

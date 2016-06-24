@@ -1,13 +1,16 @@
 <!doctype html>
-<html>
+<html ng-app=>
 <head>
-    <title> - Firebase</title>
-    <link rel="icon" href="assets/SGT.jpg">
+    <title>Student Grade Table</title>
+    <!--<link rel="icon" href="assets/SGT.jpg">-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css">
     <meta name="viewport" content="initial-scale=1, user-scalable=no">
 </head>
 <body>
@@ -21,28 +24,31 @@
         </h3>
     </div>
     <div class="">
-        <form class="student-add-form col-sm-3 pull-right col-xs-12" name="studentForm" novalidate>
+        <form class="student-add-form col-sm-3 pull-right col-xs-12" name="studentForm">
             <h4>Add Student</h4>
+            <div class="error" ng-show='studentForm.sName.$touched && studentForm.sName.$invalid'><span class="glyphicon glyphicon-alert"></span> Student name is required!</div>
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user"></span>
             </span>
-                <input id="s-name-input" type="text" class="form-control" name="sName" placeholder="Student Name" required>
+                <input id="s-name-input" type="text" class="form-control" name="sName" ng-model="sName" placeholder="Student Name" required>
             </div>
+            <div class="error" ng-show='studentForm.course.$touched && studentForm.course.$invalid'><span class="glyphicon glyphicon-alert"></span> Course name is required!</div>
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
             </span>
-                <input id="s-course-input" type="text" class="form-control" name="course" placeholder="Student Course" required>
+                <input id="s-course-input" type="text" class="form-control" name="course" ng-model="course" placeholder="Student Course" required>
             </div>
+            <div class="error" ng-show='studentForm.grade.$touched && studentForm.grade.$invalid'><span class="glyphicon glyphicon-alert"></span> Correct student's Grade is required!</div>
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-list-alt"></span>
             </span>
-                <input id="s-grade-input" type="number" class="form-control" name="grade" placeholder="Student Grade" required>
+                <input id="s-grade-input" type="number" class="form-control" name="grade" ng-model="grade" placeholder="Student Grade" max="100" required>
             </div>
             <div class="input-group">
-                <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn">Add</button>
+                <button ng-disabled="studentForm.sName.$invalid || studentForm.grade.$invalid || studentForm.course.$invalid" id="add-student-btn" type="button" class="btn btn-success" name="addBtn">Add</button>
                 <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
             </div>
             <hr>
