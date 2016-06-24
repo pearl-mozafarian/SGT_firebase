@@ -154,4 +154,9 @@ $(function ($) {
         }
     }////end of update DOM
 
+////cancel button click handler
+    $("#cancel-btn").on("click",function () {
+        clearAddStudentForm();
+    });
+
 });//end document ready
