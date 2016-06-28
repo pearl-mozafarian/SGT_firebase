@@ -116,7 +116,7 @@ $(function ($) {
     function updateDom(studentsnapshot) {
         console.log("inside update dom");
     var studentsObject = studentsnapshot.val();
-        console.log("studentsObject =", studentsObject);
+        // console.log("studentsObject =", studentsObject);
         // console.log("studentsnapshot =", studentsnapshot);
     var uniqueKey = studentsnapshot.key();
         //console.log("uniqueKey =", uniqueKey);
@@ -204,67 +204,59 @@ $(function ($) {
         // updateDom();
     }
  ///////////////////////sort////////////////////
-    $('.sort-reverse').hide();
-    $('.sort').click(function() {
+    $('.sort').hide();
+    $('.sort-reverse').click(function() {
 
         sort(this);
         $(this).siblings(0).show();
         $(this).hide();
     });
 
-    $('.sort-reverse').click(function() {
-        // sort_reverse(this);
-        $(this).siblings(0).show();
-        $(this).hide();
-    });
+    // $('.sort-reverse').click(function() {
+    //     // sort_reverse(this);
+    //     $(this).siblings(0).show();
+    //     $(this).hide();
+    // });
 
     function sort(object) {
         switch ($(object).attr('column')) {
             case 'name-col':
+                $("#course .sort").hide();
+                $("#course .sort-reverse").show();
+                $("#grade .sort").hide();
+                $("#grade .sort-reverse").show();
+
                 console.log("name sort");
-                currentFireBaseRef.orderByChild("grade").on("child_added",function(snapshot) {
+                $("tbody").empty();
+                currentFireBaseRef.orderByChild("name").on("child_added",function(snapshot) {
                     console.log("sort snapshot: " , snapshot.val());
-                    // updateDom(snapshot);
+                    updateDom(snapshot);
                 });
-                // sgt.studentArray.sort(function (a, b) {
-                //     if (a.name < b.name) {
-                //         return 1;
-                //     }
-                //     else if (a.name > b.name) {
-                //         return -1;
-                //     }
-                //     else {
-                //         return 0;
-                //     }
-                // });
                 break;
             case 'course-col':
+
+                $("#name .sort").hide();
+                $("#name .sort-reverse").show();
+                $("#grade .sort").hide();
+                $("#grade .sort-reverse").show();
                 console.log("course sort");
-                // sgt.studentArray.sort(function (a, b) {
-                //     if (a.course < b.course) {
-                //         return 1;
-                //     }
-                //     else if (a.course > b.course) {
-                //         return -1;
-                //     }
-                //     else {
-                //         return 0;
-                //     }
-                // });
+                $("tbody").empty();
+                currentFireBaseRef.orderByChild("course").on("child_added",function(snapshot) {
+                    console.log("sort snapshot: " , snapshot.val());
+                    updateDom(snapshot);
+                });
                 break;
             case 'grade-col':
+                $("#name .sort").hide();
+                $("#name .sort-reverse").show();
+                $("#course .sort").hide();
+                $("#course .sort-reverse").show();
                 console.log("grade sort");
-                // sgt.studentArray.sort(function (a, b) {
-                //     if (a.grade > b.grade) {
-                //         return 1;
-                //     }
-                //     else if (a.grade < b.grade) {
-                //         return -1;
-                //     }
-                //     else {
-                //         return 0;
-                //     }
-                // });
+                $("tbody").empty();
+                currentFireBaseRef.orderByChild("grade").on("child_added",function(snapshot) {
+                    console.log("sort snapshot: " , snapshot.val());
+                    updateDom(snapshot);
+                });
                 break;
         }
     }
