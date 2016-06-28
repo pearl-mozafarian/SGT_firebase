@@ -18,7 +18,7 @@ $(function ($) {
             addBtn.click(function(){
                 var studentName = $("#s-name-input").val(),
                     studentCourse = $("#s-course-input").val(),
-                    studentGrade = $("#s-grade-input").val();
+                    studentGrade = parseFloat($("#s-grade-input").val());
                         //console.log("testing addBtn click handler: ", studentName, studentCourse, studentGrade);
                 currentFireBaseRef.push({
                     name: studentName,
@@ -30,7 +30,7 @@ $(function ($) {
 
     /**ClearAddStudentForm function, empties the input fields of the AddStudent form*/
             function clearAddStudentForm(){
-                $('#s-name-input').val('');
+                $('#s-name-input').val('eg.John');
                 $('#s-course-input').val('');
                 $('#s-grade-input').val('');
             }
@@ -84,7 +84,7 @@ $(function ($) {
          */
                 function editStudentInfo(studentInFireBaseRef){
                     var newName = $("#modal-edit-name").val();
-                    var newGrade = $("#modal-edit-grade").val();
+                    var newGrade = parseFloat($("#modal-edit-grade").val());
                     var newCourse = $("#modal-edit-course").val();
                     studentInFireBaseRef.update({
                         name: newName,
