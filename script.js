@@ -212,12 +212,6 @@ $(function ($) {
         $(this).hide();
     });
 
-    // $('.sort-reverse').click(function() {
-    //     // sort_reverse(this);
-    //     $(this).siblings(0).show();
-    //     $(this).hide();
-    // });
-
     function sort(object) {
         switch ($(object).attr('column')) {
             case 'name-col':
