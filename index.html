@@ -18,9 +18,11 @@
     <div class="page-header">
         <!-- only show this element when the isnt on mobile -->
         <h1 class="hidden-xs">Student Grade Table
+            <small class="pull-right">Grade Average : <span class="avgGrade label label-default">0</span></small>
         </h1>
         <!-- only show this element when the user gets to a mobile version -->
         <h3 class="visible-xs">Student Grade Table
+            <small class="pull-right">Grade Average : <span class="avgGrade label label-default">0</span></small>
         </h3>
     </div>
     <div class="">
@@ -57,12 +59,27 @@
         <div class="student-list-container col-sm-9 col-xs-12" >
             <table id="student-table" class="student-list table table-striped">
                 <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Student Course</th>
-                    <th>Student Grade</th>
-                    <th>Operations</th>
-                </tr>
+                <!--<tr>-->
+                    <!--<th>Student</th>-->
+                    <!--<th>Student Course</th>-->
+                    <!--<th>Student Grade</th>-->
+                    <!--<th>Operations</th>-->
+                <!--</tr>-->
+                <th>Student Name
+                    <span class="glyphicon glyphicon-chevron-down sort btn" column="name-col"></span>
+                    <span class="glyphicon glyphicon-chevron-up sort-reverse btn" column="name-col"></span>
+                </th>
+                <th>Student Course
+                    <span class="glyphicon glyphicon-chevron-down sort btn course-col" column="course-col"></span>
+                    <span class="glyphicon glyphicon-chevron-up sort-reverse btn course-col" column="course-col"></span>
+                </th>
+                <th>Student Grade
+                    <span class="glyphicon glyphicon-chevron-down sort btn grade-col" column="grade-col"></span>
+                    <span class="glyphicon glyphicon-chevron-up sort-reverse btn grade-col" column="grade-col"></span>
+                </th>
+                <th>Operations
+                    <span class="glyphicon glyphicon-remove btn disabled" style="visibility: hidden"></span>
+                </th>
                 </thead>
                 <tbody>
                 </tbody>

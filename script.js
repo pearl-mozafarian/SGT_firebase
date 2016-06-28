@@ -1,4 +1,9 @@
 $(function ($) {
+    var sgt = {
+        index: 0,
+        displayArray: [],
+        studentArray: []
+    };
     /** Create Operations ======================
      *
      */
@@ -35,14 +40,18 @@ $(function ($) {
      * Attach an asynchronous callback to read the data at our users firebaseReference on load
      * child_added will update the DOM every-time a new student is added to the data base
      */
+
+
             currentFireBaseRef.on("child_added", function (snapshot) {
                 updateDom(snapshot);
+                currentSnapshot();
             }, function (error) {
                 console.log("read error: ",error);
             });
 
             currentFireBaseRef.on("child_changed", function (studentSnapShot) {
                 updateDom(studentSnapShot);
+                currentSnapshot();
             }, function (errorObject) {
                 console.log("The read on update failed: " + errorObject.code);
             });
@@ -50,6 +59,7 @@ $(function ($) {
         var theRow = snapshot.key();
         // console.log("the row:",$("#",theRow));
         $("#"+theRow).remove();
+        currentSnapshot();
     });
     /** Update Operations ======================
      * Click handler to update student data and send to firebase
@@ -107,7 +117,7 @@ $(function ($) {
         console.log("inside update dom");
     var studentsObject = studentsnapshot.val();
         console.log("studentsObject =", studentsObject);
-        console.log("studentsnapshot =", studentsnapshot);
+        // console.log("studentsnapshot =", studentsnapshot);
     var uniqueKey = studentsnapshot.key();
         //console.log("uniqueKey =", uniqueKey);
         var row = $("#"+uniqueKey);
@@ -153,10 +163,110 @@ $(function ($) {
             $('#student-table').append(sRow);
         }
     }////end of update DOM
-
 ////cancel button click handler
     $("#cancel-btn").on("click",function () {
         clearAddStudentForm();
     });
 
+    //////////////////////reading current info from db//////////////
+    function currentSnapshot() {
+        sgt.studentArray = [];
+        currentFireBaseRef.once("value", function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                // key will be "fred" the first time and "barney" the second time
+                var key = childSnapshot.key();
+                // childData will be the actual contents of the child
+                var childData = childSnapshot.val();
+                sgt.studentArray.push(childData);
+                // console.log("child data: ",childData);
+            });
+            // console.log("student array : ", sgt.studentArray);
+            calculateAverage();
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+    }
+
+    ////////////////average calculate////////////////////////
+    function calculateAverage() {
+        // console.log("inside cal");
+
+        if (sgt.studentArray.length > 0) {
+            var total = 0;
+            for (var i = 0; i < sgt.studentArray.length; i++) {
+                total += parseFloat(sgt.studentArray[i].grade);
+            }
+            var average =  Math.round(total / (sgt.studentArray.length));
+        } else {
+            var average =  0;
+        }
+        $(".avgGrade").text(average);
+        // updateDom();
+    }
+ ///////////////////////sort////////////////////
+    $('.sort-reverse').hide();
+    $('.sort').click(function() {
+
+        sort(this);
+        $(this).siblings(0).show();
+        $(this).hide();
+    });
+
+    $('.sort-reverse').click(function() {
+        // sort_reverse(this);
+        $(this).siblings(0).show();
+        $(this).hide();
+    });
+
+    function sort(object) {
+        switch ($(object).attr('column')) {
+            case 'name-col':
+                console.log("name sort");
+                currentFireBaseRef.orderByChild("grade").on("child_added",function(snapshot) {
+                    console.log("sort snapshot: " , snapshot.val());
+                    // updateDom(snapshot);
+                });
+                // sgt.studentArray.sort(function (a, b) {
+                //     if (a.name < b.name) {
+                //         return 1;
+                //     }
+                //     else if (a.name > b.name) {
+                //         return -1;
+                //     }
+                //     else {
+                //         return 0;
+                //     }
+                // });
+                break;
+            case 'course-col':
+                console.log("course sort");
+                // sgt.studentArray.sort(function (a, b) {
+                //     if (a.course < b.course) {
+                //         return 1;
+                //     }
+                //     else if (a.course > b.course) {
+                //         return -1;
+                //     }
+                //     else {
+                //         return 0;
+                //     }
+                // });
+                break;
+            case 'grade-col':
+                console.log("grade sort");
+                // sgt.studentArray.sort(function (a, b) {
+                //     if (a.grade > b.grade) {
+                //         return 1;
+                //     }
+                //     else if (a.grade < b.grade) {
+                //         return -1;
+                //     }
+                //     else {
+                //         return 0;
+                //     }
+                // });
+                break;
+        }
+    }
 });//end document ready
+
