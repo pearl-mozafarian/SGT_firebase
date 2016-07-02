@@ -30,7 +30,7 @@ $(function ($) {
 
     /**ClearAddStudentForm function, empties the input fields of the AddStudent form*/
             function clearAddStudentForm(){
-                $('#s-name-input').val('eg.John');
+                $('#s-name-input').val('');
                 $('#s-course-input').val('');
                 $('#s-grade-input').val('');
             }
@@ -114,7 +114,7 @@ $(function ($) {
 
     /** DOM CREATION ================================== */
     function updateDom(studentsnapshot) {
-        console.log("inside update dom");
+        //console.log("inside update dom");
     var studentsObject = studentsnapshot.val();
         // console.log("studentsObject =", studentsObject);
         // console.log("studentsnapshot =", studentsnapshot);
@@ -254,5 +254,72 @@ $(function ($) {
                 break;
         }
     }
+    //*******************************   FORM VALIDATION   ********************************/
+
+    var courseIsValid = false;
+    var nameIsValid = false;
+    var gradeIsValid = false;
+
+    function requiredInputs(){
+        $("#s-name-input,#s-course-input,#s-grade-input").attr('required','required');
+    }//requiredInputs - make input field required
+
+    function nameValidator(inputVal){
+        console.log("nameValidator() is called");
+        inputVal = $("#s-name-input").val();
+        console.log("name = inputVal is:"+inputVal);
+        var validNameInput = /^[a-z]{2,}(([a-z]{2,})|('?))\s+(([a-z]{2,})|('?))/;
+        result = validNameInput.test(inputVal);
+        console.log("validNameInput.test(inputVal):"+inputVal+" is a valid Name Input: ", result);
+        if(result == true){
+            nameIsValid = true;
+            enableAddStudentButton();
+        }
+    }//end nameValidator
+
+    function courseValidator(inputVal){
+        console.log("courseValidator() is called");
+        inputVal = $("#s-course-input").val();
+        console.log("course = inputVal is:"+inputVal);
+        var validCourseInput = /^[a-z]{2,}(([a-z]{2,})|('?))\s+(([a-z]{2,})|('?))/;
+        result = validCourseInput.test(inputVal);
+        console.log("validCourseInput.test:"+inputVal+" is a valid Course Input: ", result);
+        if(result == true){
+            courseIsValid = true;
+            enableAddStudentButton();
+        }
+    }//end courseValidator
+
+    function gradeValidator(inputVal){
+        console.log("gradeValidator() is called");
+        inputVal = $("#s-grade-input").val();
+        console.log("grade = inputVal is:"+inputVal);
+        var validGradeInput = /^[0-9]{1,2}/;
+        result = validGradeInput.test(inputVal);
+        console.log("validGradeInput.test:"+inputVal+" is a valid Grade Input: ", result);
+        if(result == true){
+            gradeIsValid = true;
+            enableAddStudentButton();
+        }
+    }//end courseValidator
+
+
+    function enableAddStudentButton(){
+        console.log("enableAddStudentButton is called");
+        if(nameIsValid && courseIsValid && gradeIsValid)
+        {
+            $("#add-student-btn").removeAttr('disabled');
+        }
+    }//enableAddStudentButton
+
+    $('form').on('click', 'button', function(){
+        console.log("Form Submitted ... #verified");
+    });
+    requiredInputs();
+    $("#s-name-input").on("change", nameValidator);
+    $("#s-course-input").on("change", courseValidator);
+    $("#s-grade-input").on("change", gradeValidator);
+
 });//end document ready
+
 

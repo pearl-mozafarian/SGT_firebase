@@ -4,11 +4,10 @@
     <title>Student Grade Table</title>
     <!--<link rel="icon" href="assets/SGT.jpg">-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
-
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css">
     <meta name="viewport" content="initial-scale=1, user-scalable=no">
@@ -16,7 +15,7 @@
 <body>
 <div class="container">
     <div class="page-header">
-        <!-- only show this element when the isnt on mobile -->
+        <!-- only show this element when Not on mobile -->
         <h1 class="hidden-xs">Student Grade Table
             <small class="pull-right">Grade Average : <span class="avgGrade label label-default">0</span></small>
         </h1>
@@ -50,7 +49,8 @@
                 <input id="s-grade-input" type="number" class="form-control" name="grade" ng-model="grade" placeholder="Student Grade" min="0" max="100" required>
             </div>
             <div class="input-group">
-                <button ng-disabled="studentForm.sName.$invalid || studentForm.grade.$invalid || studentForm.course.$invalid" id="add-student-btn" type="button" class="btn btn-success" name="addBtn">Add</button>
+                <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn" disabled>Add</button>
+                <!--<button ng-disabled="studentForm.sName.$invalid || studentForm.grade.$invalid || studentForm.course.$invalid" id="add-student-btn" type="button" class="btn btn-success" name="addBtn" disabled>Add</button>-->
                 <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
             </div>
             <hr>
