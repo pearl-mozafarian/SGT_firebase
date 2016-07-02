@@ -16,16 +16,22 @@ $(function ($) {
      * Take values of the student-add-form, assigns those values, then push the new object containing those keys and values to database and clear form
      */
             addBtn.click(function(){
-                var studentName = $("#s-name-input").val(),
-                    studentCourse = $("#s-course-input").val(),
+                var studentName = capitalizeFirstLetter($("#s-name-input").val()),
+                    studentCourse = capitalizeFirstLetter($("#s-course-input").val()),
                     studentGrade = parseFloat($("#s-grade-input").val());
                         //console.log("testing addBtn click handler: ", studentName, studentCourse, studentGrade);
-                currentFireBaseRef.push({
-                    name: studentName,
-                    course: studentCourse,
-                    grade: studentGrade
-                });
-                clearAddStudentForm();
+                nameValidator(studentName);
+                courseValidator(studentCourse);
+                gradeValidator(studentGrade);
+                if(nameIsValid && courseIsValid && gradeIsValid) {
+                    currentFireBaseRef.push({
+                        name: studentName,
+                        course: studentCourse,
+                        grade: studentGrade
+                    });
+                    clearAddStudentForm();
+                    $("#add-student-btn").attr('disabled', 'disabled');
+                }
             });//addBtn click handler
 
     /**ClearAddStudentForm function, empties the input fields of the AddStudent form*/
@@ -33,6 +39,9 @@ $(function ($) {
                 $('#s-name-input').val('');
                 $('#s-course-input').val('');
                 $('#s-grade-input').val('');
+                courseIsValid = false;
+                nameIsValid = false;
+                gradeIsValid = false;
             }
 
 
@@ -83,9 +92,9 @@ $(function ($) {
          * editStudentInfo func should take as parameter the studentInFireBaseRef, replace current studentInFireBaseRef info with new values from the input fields, then uses CRUD update() method to push to database when confirm button is clicked
          */
                 function editStudentInfo(studentInFireBaseRef){
-                    var newName = $("#modal-edit-name").val();
+                    var newName = capitalizeFirstLetter($("#modal-edit-name").val());
                     var newGrade = parseFloat($("#modal-edit-grade").val());
-                    var newCourse = $("#modal-edit-course").val();
+                    var newCourse = capitalizeFirstLetter($("#modal-edit-course").val());
                     studentInFireBaseRef.update({
                         name: newName,
                         grade: newGrade,
@@ -274,6 +283,10 @@ $(function ($) {
         if(result == true){
             nameIsValid = true;
             enableAddStudentButton();
+            $(".error-name").hide();
+        }
+        else {
+            $(".error-name").show();
         }
     }//end nameValidator
 
@@ -287,6 +300,10 @@ $(function ($) {
         if(result == true){
             courseIsValid = true;
             enableAddStudentButton();
+            $(".error-course").hide();
+        }
+        else {
+            $(".error-course").show();
         }
     }//end courseValidator
 
@@ -300,25 +317,55 @@ $(function ($) {
         if(result == true){
             gradeIsValid = true;
             enableAddStudentButton();
+            $(".error-grade").hide();
+        }
+        else {
+            gradeIsValid = false;
+            $(".error-grade").show();
         }
     }//end courseValidator
 
+    function hideErrors(){
+        $(".error-grade, .error-course, .error-name").hide();
+        //console.log("hiding errors");
+    }
 
     function enableAddStudentButton(){
         console.log("enableAddStudentButton is called");
         if(nameIsValid && courseIsValid && gradeIsValid)
         {
             $("#add-student-btn").removeAttr('disabled');
+            //addBtn.click();
         }
+        else {
+            console.log("error, some field incorrect");
+        };
+
     }//enableAddStudentButton
 
     $('form').on('click', 'button', function(){
         console.log("Form Submitted ... #verified");
     });
     requiredInputs();
+    hideErrors();
     $("#s-name-input").on("change", nameValidator);
     $("#s-course-input").on("change", courseValidator);
     $("#s-grade-input").on("change", gradeValidator);
+
+
+    //////////////////////////capitalize function///////////////////////
+    function capitalizeFirstLetter(string) {
+        for (var i = 0; i < string.length-1; i++){
+            if (string[i] == ' '){
+                string = string.charAt(0).toUpperCase() + string.slice(1,i+1) +
+                    string.charAt(i+1).toUpperCase() + string.slice(i+2);
+                return string;
+            }
+        }
+
+        //return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
 
 });//end document ready
 
