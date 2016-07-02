@@ -16,8 +16,8 @@ $(function ($) {
      * Take values of the student-add-form, assigns those values, then push the new object containing those keys and values to database and clear form
      */
             addBtn.click(function(){
-                var studentName = $("#s-name-input").val(),
-                    studentCourse = $("#s-course-input").val(),
+                var studentName = capitalizeFirstLetter($("#s-name-input").val()),
+                    studentCourse = $("#s-course-input").val().toUpperCase(),
                     studentGrade = parseFloat($("#s-grade-input").val());
                         //console.log("testing addBtn click handler: ", studentName, studentCourse, studentGrade);
                 currentFireBaseRef.push({
@@ -83,9 +83,9 @@ $(function ($) {
          * editStudentInfo func should take as parameter the studentInFireBaseRef, replace current studentInFireBaseRef info with new values from the input fields, then uses CRUD update() method to push to database when confirm button is clicked
          */
                 function editStudentInfo(studentInFireBaseRef){
-                    var newName = $("#modal-edit-name").val();
+                    var newName = capitalizeFirstLetter($("#modal-edit-name").val());
                     var newGrade = parseFloat($("#modal-edit-grade").val());
-                    var newCourse = $("#modal-edit-course").val();
+                    var newCourse =$("#modal-edit-course").val().toUpperCase();
                     studentInFireBaseRef.update({
                         name: newName,
                         grade: newGrade,
@@ -253,6 +253,10 @@ $(function ($) {
                 });
                 break;
         }
+    }
+    //////////////////////////capitalize function///////////////////////
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 });//end document ready
 
