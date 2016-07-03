@@ -27,29 +27,29 @@
     <div class="">
         <form class="student-add-form col-sm-3 pull-right col-xs-12" name="studentForm">
             <h4>Add Student</h4>
-            <div class="error-name"><span class="glyphicon glyphicon-alert"></span> Student name is required!</div>
+            <div class="error-name"><span class="glyphicon glyphicon-alert"></span> Invalid! ex: John Doe</div>
             <!--<div class="error" ng-show='studentForm.sName.$touched && studentForm.sName.$invalid'><span class="glyphicon glyphicon-alert"></span> Student name is required!</div>-->
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user"></span>
             </span>
-                <input id="s-name-input" type="text" class="form-control" name="sName" ng-model="sName" placeholder="Student Name" required>
+                <input id="s-name-input" type="text" class="form-control" name="sName" ng-model="sName" placeholder="FirstName LastName" required>
             </div>
-            <div class="error-course" ><span class="glyphicon glyphicon-alert"></span> Course name is required!</div>
+            <div class="error-course" ><span class="glyphicon glyphicon-alert"></span> Invalid! ex: Basic Math 101</div>
             <!--<div class="error" ng-show='studentForm.course.$touched && studentForm.course.$invalid'><span class="glyphicon glyphicon-alert"></span> Course name is required!</div>-->
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
             </span>
-                <input id="s-course-input" type="text" class="form-control" name="course" ng-model="course" placeholder="Student Course" required>
+                <input id="s-course-input" type="text" class="form-control" name="course" ng-model="course" placeholder="Student Course 100" required>
             </div>
-            <div class="error-grade"><span class="glyphicon glyphicon-alert"></span> Student's Grade is required!</div>
+            <div class="error-grade"><span class="glyphicon glyphicon-alert"></span> Invalid! ex: 100</div>
             <!--<div class="error" ng-show='studentForm.grade.$touched && studentForm.grade.$invalid'><span class="glyphicon glyphicon-alert"></span> Student's Grade is required!</div>-->
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-list-alt"></span>
             </span>
-                <input id="s-grade-input" type="number" class="form-control" name="grade" ng-model="grade" placeholder="Student Grade" min="0" max="100" required>
+                <input id="s-grade-input" type="number" class="form-control" name="grade" ng-model="grade" placeholder="Grade" min="0" max="100" required>
             </div>
             <div class="input-group">
                 <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn" disabled>Add</button>

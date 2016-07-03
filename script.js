@@ -277,7 +277,7 @@ $(function ($) {
         console.log("nameValidator() is called");
         inputVal = $("#s-name-input").val();
         console.log("name = inputVal is:"+inputVal);
-        var validNameInput = /^[a-z]{2,}(([a-z]{2,})|('?))\s+(([a-z]{2,})|('?))/;
+        var validNameInput = /^[a-zA-Z]{2,}(([a-zA-Z]{2,})|('?))\s+(([a-zA-Z]{2,})|('?))$/;
         result = validNameInput.test(inputVal);
         console.log("validNameInput.test(inputVal):"+inputVal+" is a valid Name Input: ", result);
         if(result == true){
@@ -294,7 +294,7 @@ $(function ($) {
         console.log("courseValidator() is called");
         inputVal = $("#s-course-input").val();
         console.log("course = inputVal is:"+inputVal);
-        var validCourseInput = /^[a-z]{2,}(([a-z]{2,})|('?))\s+(([a-z]{2,})|('?))/;
+        var validCourseInput = /(^[a-zA-Z]{2,}(([a-zA-Z]{2,})|('?))\s+(([a-zA-Z]{2,})|('?))\s+[0-9]{1,3}$)|(^[a-zA-Z]{2,}(([a-zA-Z]{2,})|('?))\s+(([a-zA-Z]{2,})|('?))$)|(^[a-zA-Z]{2,}$)/;
         result = validCourseInput.test(inputVal);
         console.log("validCourseInput.test:"+inputVal+" is a valid Course Input: ", result);
         if(result == true){
@@ -311,7 +311,7 @@ $(function ($) {
         console.log("gradeValidator() is called");
         inputVal = $("#s-grade-input").val();
         console.log("grade = inputVal is:"+inputVal);
-        var validGradeInput = /^[0-9]{1,2}/;
+        var validGradeInput = /^([0-9]{1,2})$|^([0-9]{1,2}[0])$/;
         result = validGradeInput.test(inputVal);
         console.log("validGradeInput.test:"+inputVal+" is a valid Grade Input: ", result);
         if(result == true){
