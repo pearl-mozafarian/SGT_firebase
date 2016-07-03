@@ -357,8 +357,8 @@ $(function ($) {
     function capitalizeFirstLetter(string) {
         for (var i = 0; i < string.length-1; i++){
             if (string[i] == ' '){
-                string = string.charAt(0).toUpperCase() + string.slice(1,i+1) +
-                    string.charAt(i+1).toUpperCase() + string.slice(i+2);
+                string = string.charAt(0).toUpperCase() + string.slice(1,i+1).toLowerCase() +
+                    string.charAt(i+1).toUpperCase() + string.slice(i+2).toLowerCase();
                 return string;
             }
         }
