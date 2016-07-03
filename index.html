@@ -2,7 +2,7 @@
 <html ng-app>
 <head>
     <title>Student Grade Table</title>
-    <!--<link rel="icon" href="assets/SGT.jpg">-->
+    <link rel="icon" href="images/favicon-p.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -28,7 +28,6 @@
         <form class="student-add-form col-sm-3 pull-right col-xs-12" name="studentForm">
             <h4>Add Student</h4>
             <div class="error-name"><span class="glyphicon glyphicon-alert"></span> Invalid! ex: John Doe</div>
-            <!--<div class="error" ng-show='studentForm.sName.$touched && studentForm.sName.$invalid'><span class="glyphicon glyphicon-alert"></span> Student name is required!</div>-->
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user"></span>
@@ -36,7 +35,6 @@
                 <input id="s-name-input" type="text" class="form-control" name="sName" ng-model="sName" placeholder="FirstName LastName" required>
             </div>
             <div class="error-course" ><span class="glyphicon glyphicon-alert"></span> Invalid! ex: Basic Math 101</div>
-            <!--<div class="error" ng-show='studentForm.course.$touched && studentForm.course.$invalid'><span class="glyphicon glyphicon-alert"></span> Course name is required!</div>-->
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
@@ -44,7 +42,6 @@
                 <input id="s-course-input" type="text" class="form-control" name="course" ng-model="course" placeholder="Student Course 100" required>
             </div>
             <div class="error-grade"><span class="glyphicon glyphicon-alert"></span> Invalid! ex: 100</div>
-            <!--<div class="error" ng-show='studentForm.grade.$touched && studentForm.grade.$invalid'><span class="glyphicon glyphicon-alert"></span> Student's Grade is required!</div>-->
             <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-list-alt"></span>
@@ -53,7 +50,6 @@
             </div>
             <div class="input-group">
                 <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn" disabled>Add</button>
-                <!--<button ng-disabled="studentForm.sName.$invalid || studentForm.grade.$invalid || studentForm.course.$invalid" id="add-student-btn" type="button" class="btn btn-success" name="addBtn" disabled>Add</button>-->
                 <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
             </div>
             <hr>
@@ -83,7 +79,6 @@
             </table>
         </div>
     </div>
-
 
 <!--======== Edit Modal ===========-->
 <!-- line modal -->

@@ -4,17 +4,13 @@ $(function ($) {
         displayArray: [],
         studentArray: []
     };
-    /** Create Operations ======================
-     *
-     */
-            // var currentFireBaseRef = new Firebase("https://lfchallenge.firebaseio.com/students");
+    /********************* CREATE OPERATIONS  ===========**/
             var currentFireBaseRef = new Firebase("https://boiling-torch-7959.firebaseio.com/");
             var addBtn = $("#add-student-btn");
             var sgtTable = $("#student-table");
 
     /** Click handler to submit student information
-     * Take values of the student-add-form, assigns those values, then push the new object containing those keys and values to database and clear form
-     */
+     * Take values of student-add-form, assigns those values, then push the new object containing those keys and values to database and clear form */
             addBtn.click(function(){
                 var studentName = capitalizeFirstLetter($("#s-name-input").val()),
                     studentCourse = capitalizeFirstLetter($("#s-course-input").val()),
@@ -44,12 +40,9 @@ $(function ($) {
                 gradeIsValid = false;
             }
 
-
-    /** Read Operations ======================
+    /********************* READ OPERATIONS ======================
      * Attach an asynchronous callback to read the data at our users firebaseReference on load
-     * child_added will update the DOM every-time a new student is added to the data base
-     */
-
+     * child_added will update the DOM every-time a new student is added to the data base*/
 
             currentFireBaseRef.on("child_added", function (snapshot) {
                 updateDom(snapshot);
@@ -70,12 +63,11 @@ $(function ($) {
         $("#"+theRow).remove();
         currentSnapshot();
     });
-    /** Update Operations ======================
+    /********************* UPDATE OPERATIONS ======================
      * Click handler to update student data and send to firebase
-     * Get the unique id of any student
-     */
+     * Get the unique id of any student*/
 
-        /** Edit button handler - calls the edit student info modal*/
+        /********************* Edit button click handler - calls the edit student info modal ********************/
                 sgtTable.on("click",".edit-btn", function(){
                     var studentObjectId = $(this).data('id');
                     var studentInFireBaseRef = currentFireBaseRef.child(studentObjectId);
@@ -88,9 +80,11 @@ $(function ($) {
                         $("#edit-modal").modal("show");
                     });
                 });  //edit button click handler
-        /** Edit Student Function
-         * editStudentInfo func should take as parameter the studentInFireBaseRef, replace current studentInFireBaseRef info with new values from the input fields, then uses CRUD update() method to push to database when confirm button is clicked
-         */
+
+        /********************* Edit Student Function *******************
+         * editStudentInfo func should take as parameter the studentInFireBaseRef, replace current studentInFireBaseRef 
+         * info with new values from the input fields, then uses CRUD update() method to push to database when 
+         * confirm button is clicked*/
                 function editStudentInfo(studentInFireBaseRef){
                     var newName = capitalizeFirstLetter($("#modal-edit-name").val());
                     var newGrade = parseFloat($("#modal-edit-grade").val());
@@ -110,18 +104,16 @@ $(function ($) {
                 editStudentInfo(studentInFireBaseRef);
                 $("#edit-modal").modal('hide');
             }); //end confirm click handler
-    /** DELETE OPERATIONS ==================================
-     *
-     */
+    /********************* DELETE OPERATIONS ==================================**/
 
-    /** Delete button handler */
-      sgtTable.on("click",".delete-btn",function () {
-          var stdfirebaseref = currentFireBaseRef.child($(this).data('id'));
-          console.log("delete: ",stdfirebaseref);
-          stdfirebaseref.remove();
-      });
+        /** Delete button handler */
+          sgtTable.on("click",".delete-btn",function () {
+              var stdfirebaseref = currentFireBaseRef.child($(this).data('id'));
+              console.log("delete: ",stdfirebaseref);
+              stdfirebaseref.remove();
+          });
 
-    /** DOM CREATION ================================== */
+    /********************* DOM CREATION ================================== */
     function updateDom(studentsnapshot) {
         //console.log("inside update dom");
     var studentsObject = studentsnapshot.val();
@@ -172,12 +164,13 @@ $(function ($) {
             $('#student-table').append(sRow);
         }
     }////end of update DOM
-////cancel button click handler
-    $("#cancel-btn").on("click",function () {
-        clearAddStudentForm();
-    });
 
-    //////////////////////reading current info from db//////////////
+    /********************* cancel button click handler ********************/
+        $("#cancel-btn").on("click",function () {
+            clearAddStudentForm();
+        });
+
+    /********************* reading current info from db *********************/
     function currentSnapshot() {
         sgt.studentArray = [];
         currentFireBaseRef.once("value", function(snapshot) {
@@ -194,12 +187,11 @@ $(function ($) {
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
-    }
+    }//end function currentSnapshot
 
-    ////////////////average calculate////////////////////////
+    /********************* Calculate Average Grade  ********************/
     function calculateAverage() {
-        // console.log("inside cal");
-
+            // console.log("inside cal");
         if (sgt.studentArray.length > 0) {
             var total = 0;
             for (var i = 0; i < sgt.studentArray.length; i++) {
@@ -212,58 +204,59 @@ $(function ($) {
         $(".avgGrade").text(average);
         // updateDom();
     }
- ///////////////////////sort////////////////////
-    $('.sort').hide();
-    $('.sort-reverse').click(function() {
 
-        sort(this);
-        $(this).siblings(0).show();
-        $(this).hide();
-    });
+     /********************* SORT Function *********************/
+        $('.sort').hide();
+        $('.sort-reverse').click(function() {
+            sort(this);
+            $(this).siblings(0).show();
+            $(this).hide();
+        });
 
-    function sort(object) {
-        switch ($(object).attr('column')) {
-            case 'name-col':
-                $("#course .sort").hide();
-                $("#course .sort-reverse").show();
-                $("#grade .sort").hide();
-                $("#grade .sort-reverse").show();
+        function sort(object) {
+            switch ($(object).attr('column')) {
+                case 'name-col':
+                    $("#course .sort").hide();
+                    $("#course .sort-reverse").show();
+                    $("#grade .sort").hide();
+                    $("#grade .sort-reverse").show();
 
-                console.log("name sort");
-                $("tbody").empty();
-                currentFireBaseRef.orderByChild("name").on("child_added",function(snapshot) {
-                    console.log("sort snapshot: " , snapshot.val());
-                    updateDom(snapshot);
-                });
-                break;
-            case 'course-col':
+                        //console.log("name sort");
+                    $("tbody").empty();
+                    currentFireBaseRef.orderByChild("name").on("child_added",function(snapshot) {
+                        //console.log("sort snapshot: " , snapshot.val());
+                        updateDom(snapshot);
+                    });
+                    break;
+                case 'course-col':
 
-                $("#name .sort").hide();
-                $("#name .sort-reverse").show();
-                $("#grade .sort").hide();
-                $("#grade .sort-reverse").show();
-                console.log("course sort");
-                $("tbody").empty();
-                currentFireBaseRef.orderByChild("course").on("child_added",function(snapshot) {
-                    console.log("sort snapshot: " , snapshot.val());
-                    updateDom(snapshot);
-                });
-                break;
-            case 'grade-col':
-                $("#name .sort").hide();
-                $("#name .sort-reverse").show();
-                $("#course .sort").hide();
-                $("#course .sort-reverse").show();
-                console.log("grade sort");
-                $("tbody").empty();
-                currentFireBaseRef.orderByChild("grade").on("child_added",function(snapshot) {
-                    console.log("sort snapshot: " , snapshot.val());
-                    updateDom(snapshot);
-                });
-                break;
-        }
-    }
-    //*******************************   FORM VALIDATION   ********************************/
+                    $("#name .sort").hide();
+                    $("#name .sort-reverse").show();
+                    $("#grade .sort").hide();
+                    $("#grade .sort-reverse").show();
+                            //console.log("course sort");
+                    $("tbody").empty();
+                    currentFireBaseRef.orderByChild("course").on("child_added",function(snapshot) {
+                            //console.log("sort snapshot: " , snapshot.val());
+                        updateDom(snapshot);
+                    });
+                    break;
+                case 'grade-col':
+                    $("#name .sort").hide();
+                    $("#name .sort-reverse").show();
+                    $("#course .sort").hide();
+                    $("#course .sort-reverse").show();
+                            //console.log("grade sort");
+                    $("tbody").empty();
+                    currentFireBaseRef.orderByChild("grade").on("child_added",function(snapshot) {
+                            //console.log("sort snapshot: " , snapshot.val());
+                        updateDom(snapshot);
+                    });
+                    break;
+            }
+        }//end of sort function
+
+    /*******************************   FORM VALIDATION   ********************************/
 
     var courseIsValid = false;
     var nameIsValid = false;
@@ -277,7 +270,7 @@ $(function ($) {
         console.log("nameValidator() is called");
         inputVal = $("#s-name-input").val();
         console.log("name = inputVal is:"+inputVal);
-        var validNameInput = /^[a-zA-Z]{2,}(([a-zA-Z]{2,})|('?))\s+(([a-zA-Z]{2,})|('?))$/;
+        var validNameInput = /^[a-zA-Z]{2,}(([a-zA-Z]{2,})|('?))\s+(([a-zA-Z]{2,}))$/;
         result = validNameInput.test(inputVal);
         console.log("validNameInput.test(inputVal):"+inputVal+" is a valid Name Input: ", result);
         if(result == true){
@@ -327,21 +320,31 @@ $(function ($) {
 
     function hideErrors(){
         $(".error-grade, .error-course, .error-name").hide();
-        //console.log("hiding errors");
+            //console.log("hiding errors");
     }
 
     function enableAddStudentButton(){
         console.log("enableAddStudentButton is called");
-        if(nameIsValid && courseIsValid && gradeIsValid)
-        {
+        if(nameIsValid && courseIsValid && gradeIsValid){
             $("#add-student-btn").removeAttr('disabled');
             //addBtn.click();
         }
         else {
-            console.log("error, some field incorrect");
-        };
+            //console.log("error, some field incorrect");
+        }
 
     }//enableAddStudentButton
+
+    /******************* Capitalize First Letter of Name/Course *********************/
+    function capitalizeFirstLetter(string) {
+        for (var i = 0; i < string.length-1; i++){
+            if (string[i] == ' '){
+                string = string.charAt(0).toUpperCase() + string.slice(1,i+1).toLowerCase() +
+                    string.charAt(i+1).toUpperCase() + string.slice(i+2).toLowerCase();
+                return string;
+            }
+        }
+    } //end function capitalizeFirstLetter
 
     $('form').on('click', 'button', function(){
         console.log("Form Submitted ... #verified");
@@ -351,21 +354,6 @@ $(function ($) {
     $("#s-name-input").on("change", nameValidator);
     $("#s-course-input").on("change", courseValidator);
     $("#s-grade-input").on("change", gradeValidator);
-
-
-    //////////////////////////capitalize function///////////////////////
-    function capitalizeFirstLetter(string) {
-        for (var i = 0; i < string.length-1; i++){
-            if (string[i] == ' '){
-                string = string.charAt(0).toUpperCase() + string.slice(1,i+1) +
-                    string.charAt(i+1).toUpperCase() + string.slice(i+2);
-                return string;
-            }
-        }
-
-        //return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
 
 });//end document ready
 
